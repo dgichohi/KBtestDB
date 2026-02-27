@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS Projects (
     projectID     INT AUTO_INCREMENT,
     title         VARCHAR(255) NOT NULL,
     description   VARCHAR(355),
-    created_by    INT,  -- maybe change to date-created? unsure...
+    date_created  DATE,
     PRIMARY KEY (projectID),
     FOREIGN KEY (created_by) REFERENCES Users(userID) ON DELETE SET NULL
 );
