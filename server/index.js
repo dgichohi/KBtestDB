@@ -3,11 +3,14 @@ const cors = require('cors');
 require('dotenv').config();
 
 const db = require('./db');
-
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+const authRoutes = require('./login');
+app.use('/api/auth', authRoutes);
+
 
 // for getting the uploaded files publicly
 app.use('/uploads', express.static('uploads'));

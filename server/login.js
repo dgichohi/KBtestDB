@@ -1,7 +1,9 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const db = require('../db');
+const cors = require('cors');
+require('dotenv').config();
+const db = require('./db');
 
 const router = express.Router();
 const SALT_ROUNDS = 10; 
@@ -36,7 +38,6 @@ router.post('/register', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
-
 
 router.post('/login', async (req, res) => {
   try {
@@ -73,15 +74,15 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/verify', (req, res) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
 
-  if (!token) return res.status(401).json({ error: 'No token provided' });
+    if (!token) return res.status(401).json({ error: 'No token provided' });
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) return res.status(403).json({ error: 'Invalid token' });
-    res.json({ message: 'Token valid', user: decoded });
-  });
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) return res.status(403).json({ error: 'Invalid token' });
+        res.json({ message: 'Token valid', user: decoded });
+    });
 });
 
 module.exports = router;
